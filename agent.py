@@ -29,7 +29,7 @@ def get_exchange_rate(currency_code):
     response = requests.get(
         "https://api.cnb.cz/cnbapi/exrates/daily",
         params={"lang": "EN"},
-        timeout=10,  # <- pojistka: po 10 sekundách bez odpovědi to vzdá s chybou, místo aby čekalo donekonečna
+        timeout=10,  
     )
     response.raise_for_status()
     data = response.json()

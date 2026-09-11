@@ -8,7 +8,7 @@ load_dotenv()
 client = genai.Client(api_key=os.environ["GEMINI_API_KEY"])
 MODEL = "gemini-3.8-flash"
 
-# Prozatím naše testovací znalostní báze - později nahradíme reálnými ČNB texty
+# Temporary test knowledge base
 chunks = [
     "Deviza je bezhotovostní pohledávka znějící na cizí měnu, například peníze na bankovním účtu. Kurz deviza se používá pro bezhotovostní platby.",
     "Valuta je hotovostní cizí měna, tedy fyzické bankovky a mince. Kurz valuta se používá při směně hotovosti, například na pobočce banky.",
@@ -31,7 +31,7 @@ def get_query_embedding(text):
     )
     return result.embeddings[0].values
 
-# Připravíme databázi jednou při startu aplikace
+# Vector database
 embeddings = [get_document_embedding(chunk) for chunk in chunks]
 chroma_client = chromadb.Client()
 collection = chroma_client.create_collection(name="cnb_znalosti")
@@ -43,10 +43,12 @@ collection.add(
 
 
 def answer_with_rag(question):
+    # 1. Retrieval
     query_embedding = get_query_embedding(question)
     results = collection.query(query_embeddings=[query_embedding], n_results=2)
     relevant_chunks = results["documents"][0]
 
+     # 2. Augmentation
     context = "\n\n".join(relevant_chunks)
     prompt = f"""Odpověz na otázku POUZE na základě následujícího kontextu.Pokud odpověď v kontextu není, řekni, že to nevíš.
 
