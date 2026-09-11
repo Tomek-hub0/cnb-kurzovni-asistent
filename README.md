@@ -21,7 +21,7 @@ Google Gemini API · FastAPI · ChromaDB · Docker · GitHub Actions
 git clone https://github.com/<tvoje-jmeno>/cnb-kurzovni-asistent.git
 cd cnb-kurzovni-asistent
 python -m venv venv
-venv\Scripts\Activate.ps1      # Windows
+venv\Scripts\Activate.ps1     
 
 pip install -r requirements.txt
 ```
@@ -60,8 +60,4 @@ curl -X POST "http://127.0.0.1:8000/exchange-rate" \
   "answer": "Aktuální oficiální kurz amerického dolaru (USD) podle ČNB je 20,88 CZK."
 }
 ```
-
-## Poznámky
-
-Cvičný/portfoliový projekt – znalostní báze pro `/ask` obsahuje zatím jen ukázková data, appka neřeší autentizaci ani perzistentní ukládání.
 
